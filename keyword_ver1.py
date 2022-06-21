@@ -23,6 +23,7 @@ stop_word = ['し','その','する']
 t = Tokenizer()
 
 old_train_corpus = pd.read_csv(TRAIN_tsv,header=None,sep='\t')
+old_train_corpus = old_train_corpus.dropna(how='any')
 new_train_keyword_corpus = pd.DataFrame()
 
 for row in old_train_corpus.itertuples():
@@ -40,6 +41,7 @@ new_train_keyword_corpus = new_train_keyword_corpus.reset_index(drop=True)
 
 
 old_test_corpus = pd.read_csv(TEST_tsv,header=None,sep='\t')
+old_test_corpus = old_test_corpus.dropna(how='any')
 new_test_keyword_corpus = pd.DataFrame()
 
 for row in old_test_corpus.itertuples():
@@ -180,42 +182,42 @@ key_train_JPPYmatch_stop=key_train_JPPYmatch_stop.dropna(how='any')
 # 書き出しの下準備
 
 folder_path = './keyword_corpus'
-os.mkder(folder_path)
+os.mkdir(folder_path)
 
 today = str(datetime.date.today())
 
-train_file_name = TRAIN_tsv.split('/')
+
 train_file_name_list = TRAIN_tsv.split('/')
 train_file_name  = train_file_name_list[-1]
-train_file_name = train_file_name.strip('.tsv')
+train_file_name = train_file_name.replace('.tsv', '')
 
 
-test_file_name = TEST_tsv.split('/')
+
 test_file_name_list = TEST_tsv.split('/')
 test_file_name  = test_file_name_list[-1]
-test_file_name = test_file_name.strip('.tsv')
+test_file_name = test_file_name.replace('.tsv', '')
 
 # ファイルにする
 
 # 空白を除いたキーワード化
-key_train.to_csv(folder_path+train_file_name+'_keyword'+today+'.tsv',sep='\t',header=False, index=False)
-key_test.to_csv(folder_path+test_file_name+'_keyword'+today+'.tsv',sep='\t',header=False, index=False)
+key_train.to_csv(folder_path+'/'+train_file_name+'_keyword'+today+'.tsv',sep='\t',header=False, index=False)
+key_test.to_csv(folder_path+'/'+test_file_name+'_keyword'+today+'.tsv',sep='\t',header=False, index=False)
 
 # 日本語が一致したものを除いたもの
-key_train_JPmatch.to_csv(folder_path+train_file_name+'_keyword_JPmatch'+today+'.tsv',sep='\t',header=False, index=False)
-key_test_JPmatch.to_csv(folder_path+test_file_name+'_keyword_JPmatch'+today+'.tsv',sep='\t',header=False, index=False)
+key_train_JPmatch.to_csv(folder_path+'/'+train_file_name+'_keyword_JPmatch'+today+'.tsv',sep='\t',header=False, index=False)
+key_test_JPmatch.to_csv(folder_path+'/'+test_file_name+'_keyword_JPmatch'+today+'.tsv',sep='\t',header=False, index=False)
 
 
 # 日本語-コードが一致したものを除いたもの
-key_train_JPPYmatch.to_csv(folder_path+train_file_name+'_keyword_JPPYmatch'+today+'.tsv',sep='\t',header=False, index=False)
-key_test_JPPYmatch.to_csv(folder_path+test_file_name+'_keyword_JPPYmatch'+today+'.tsv',sep='\t',header=False, index=False)
+key_train_JPPYmatch.to_csv(folder_path+'/'+train_file_name+'_keyword_JPPYmatch'+today+'.tsv',sep='\t',header=False, index=False)
+key_test_JPPYmatch.to_csv(folder_path+'/'+test_file_name+'_keyword_JPPYmatch'+today+'.tsv',sep='\t',header=False, index=False)
 
 
 # 日本語が一致したもの、ストップワードを除いたもの
-key_train_JPmatch_stop.to_csv(folder_path+train_file_name+'_keyword_JPmatch_stopword'+today+'.tsv',sep='\t',header=False, index=False)
-key_test_JPmatch_stop.to_csv(folder_path+test_file_name+'_keyword_JPmatch_stopword'+today+'.tsv',sep='\t',header=False, index=False)
+key_train_JPmatch_stop.to_csv(folder_path+'/'+train_file_name+'_keyword_JPmatch_stopword'+today+'.tsv',sep='\t',header=False, index=False)
+key_test_JPmatch_stop.to_csv(folder_path+'/'+test_file_name+'_keyword_JPmatch_stopword'+today+'.tsv',sep='\t',header=False, index=False)
 
 
 # 日本語-コードが一致したもの、ストップワードをを除いたもの
-key_train_JPPYmatch_stop.to_csv(folder_path+train_file_name+'_keyword_JPPYmatch_stopword'+today+'.tsv',sep='\t',header=False, index=False)
-key_test_JPPYmatch_stop.to_csv(folder_path+test_file_name+'_keyword_JPPYmatch_stopword'+today+'.tsv',sep='\t',header=False, index=False)
+key_train_JPPYmatch_stop.to_csv(folder_path+'/'+train_file_name+'_keyword_JPPYmatch_stopword'+today+'.tsv',sep='\t',header=False, index=False)
+key_test_JPPYmatch_stop.to_csv(folder_path+'/'+test_file_name+'_keyword_JPPYmatch_stopword'+today+'.tsv',sep='\t',header=False, index=False)
